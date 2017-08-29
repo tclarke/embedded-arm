@@ -1,5 +1,5 @@
 /**
- * PrimeCell UART (PL011)
+ * Basic character I/O support for the PL011 UART that's emulated on our target board.
  */
 
 #ifndef PL011_H__
@@ -7,6 +7,9 @@
 
 #include <stdint.h>
  
+/**
+ * Struct specifying the memory layout of the UART registers as defined in http://www.ti.com/lit/ds/symlink/lm3s6965.pdf
+ */
 typedef volatile struct {
     uint32_t DR;
     uint32_t RSR_ECR;
@@ -26,15 +29,24 @@ typedef volatile struct {
     uint32_t DMACR;
 } pl011_T;
  
+/**
+ * Status word values
+ */
 enum {
     RXFE = 0x10,
     TXFF = 0x20,
 };
  
+/**
+ * The three UARTS on the target board.
+ */
 extern pl011_T* const UART0;
 extern pl011_T* const UART1;
 extern pl011_T* const UART2;
 
+/**
+ * UART0 is attached to stdio so it's our default UART
+ */
 #define DEFAULT_UART UART0
 #define EOF -1
 
